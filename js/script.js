@@ -52,9 +52,55 @@ const makeGuess = function (letter) { //This function is saving the player's gue
         message.innerText = "You've already guessed that letter. Try again."
     } else {
         guessedLetters.push(letter);
+        showLetters ();
+        updateWord(guessedLetters);
     }
     console.log(guessedLetters);
 }
+
+const showLetters = function () {
+    guessedLettersList.innerHTML = "";
+    guessedLetters.forEach (function(letter) {
+        const li = document.createElement("li");
+        li.innerText = `${letter}`;
+        console.log(li);
+        guessedLettersList.append(li);
+    });
+}
+
+const updateWord = function (guessedLetters) {
+    const wordUpper = word.toUpperCase(); 
+    const wordArray = wordUpper.split("");
+    //console.log(wordArray);
+    const revealWord = [];
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            revealWord.push(letter.toUpperCase());
+        } else {
+            revealWord.push("●");
+        }
+    }
+    wordProgress.innerText = revealWord.join("");
+    win();
+};
+
+//console.log(updateWord());
+
+const win = function () {
+    if (word.toUpperCase() === wordProgress.innerText) {
+        message.classList.add("win");
+        message.classList.add("highlight");
+        message.innerText = "You guessed the word! Congrats!";
+    }
+};
+
+
+
+
+
+
+
+
 
 
 
