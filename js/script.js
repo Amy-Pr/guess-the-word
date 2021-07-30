@@ -1,6 +1,7 @@
 const guessedLettersList = document.querySelector (".guessed-letters");//The list of guessed letters
 const guessButton = document.querySelector (".guess"); //The guess button
-const playerGuess = document.querySelector (".letter") //The player input field
+const playerGuess = document.querySelector (".letter"); //The player input field
+const playPrompt = document.querySelector("label");//The type a letter prompt
 const wordProgress = document.querySelector (".word-in-progress"); //Paragraph showing the word as it progresses
 const remaining = document.querySelector (".remaining"); //Paragraph with number of remaining guesses
 const numRemaining = document.querySelector ("span"); //Actual number remaining
@@ -117,7 +118,7 @@ const guessCount = function (guess) {
             remainingGuesses -= 1;
         } else {
             message.innerText = `Good guess! The letter ${guess} is in the word!`;
-            remainingGuesses -= 1;
+            //remainingGuesses -= 1;
         };
         if (remainingGuesses === 0) {
             message.innerText = `No more guesses! Game Over. The word is ${pulledWord}.`;
@@ -144,6 +145,8 @@ const startOver = function () {
     guessedLettersList.classList.add("hide");
     remaining.classList.add("hide");
     againButton.classList.remove("hide");
+    playerGuess.classList.add("hide");
+    playPrompt.classList.add("hide");
 };
 
 againButton.addEventListener ("click", function () {
@@ -157,6 +160,8 @@ againButton.addEventListener ("click", function () {
    guessButton.classList.remove("hide");
    guessedLettersList.classList.remove("hide");
    remaining.classList.remove("hide");
+   playerGuess.classList.remove("hide");
+   playPrompt.classList.remove("hide");
    againButton.classList.add("hide");
    getWord();
 });
