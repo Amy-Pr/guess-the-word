@@ -159,6 +159,7 @@ againButton.addEventListener ("click", function () {
    remaining.classList.remove("hide");
    againButton.classList.add("hide");
    getWord();
+
 });
 
 
