@@ -6,8 +6,31 @@ const remaining = document.querySelector (".remaining"); //Paragraph with number
 const numRemaining = document.querySelector ("span"); //Actual number remaining
 const message = document.querySelector (".message"); //paragraph of messages to the player
 const againButton = document.querySelector (".play-again"); //button to play again
-const word = "magnolia"; //My test word
+let word = "magnolia"; //My test word
 const guessedLetters = [];
+let remainingGuesses = 8;
+
+const getWord = async function () {
+    const res = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const data = await res.text();
+    //console.log(data);
+    const wordArray = data.split("\n"); //turns the text file of words into an array
+    //console.log(wordArray);
+    selectRandomWord(wordArray);
+};
+
+getWord();
+
+const selectRandomWord = function (wordArray) {
+    const randomIndex = Math.floor(Math.random()*wordArray.length);
+    //console.log(randomIndex);
+    const randomWord = wordArray[randomIndex];
+    //console.log(randomWord);
+    word = randomWord.trim(); 
+    letterPlaceHolders(word);
+};
+
+
 
 const letterPlaceHolders = function (word) {
     const placeHolderArray = []; //Creates the initial array and populates with the dot
@@ -18,7 +41,7 @@ const letterPlaceHolders = function (word) {
     wordProgress.innerText = placeHolderArray.join(""); //This makes it a string again so it shows up in paragraph
 };
  
-letterPlaceHolders(word);
+
 
 guessButton.addEventListener ("click", function(e) {
  e.preventDefault();
@@ -53,6 +76,7 @@ const makeGuess = function (letter) { //This function is saving the player's gue
     } else {
         guessedLetters.push(letter);
         showLetters ();
+        guessCount(letter);
         updateWord(guessedLetters);
     }
     console.log(guessedLetters);
@@ -86,6 +110,24 @@ const updateWord = function (guessedLetters) {
 
 //console.log(updateWord());
 
+const guessCount = function (guess) {
+    pulledWord = word.toUpperCase();
+        if (!pulledWord.includes(guess)) {
+            message.innerText = `The word does not contain ${guess}.`;
+            remainingGuesses -= 1;
+        } else {
+            message.innerText = `Good guess! The letter ${guess} is in the word!`;
+        };
+        if (remainingGuesses === 0) {
+            message.innerText = `No more guesses! Game Over. The word is ${pulledWord}.`;
+        };
+        if (remainingGuesses >= 0) {
+            numRemaining.innerText = `${remainingGuesses} guesses`;
+        };
+
+}
+
+
 const win = function () {
     if (word.toUpperCase() === wordProgress.innerText) {
         message.classList.add("win");
@@ -93,6 +135,8 @@ const win = function () {
         message.innerText = "You guessed the word! Congrats!";
     }
 };
+
+
 
 
 
