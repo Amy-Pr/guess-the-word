@@ -124,10 +124,12 @@ const guessCount = function (guess) {
             message.innerText = `No more guesses! Game Over. The word is ${pulledWord}.`;
             startOver();
         };
-        if (remainingGuesses >= 0) {
+        if (remainingGuesses === 1) {
+            numRemaining.innerText = `${remainingGuesses} guess`;
+        };
+        if (remainingGuesses > 1) {
             numRemaining.innerText = `${remainingGuesses} guesses`;
         };
-
 }
 
 
